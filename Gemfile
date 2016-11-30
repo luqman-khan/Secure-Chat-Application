@@ -23,6 +23,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem 'devise'
+gem 'jwt'
 gem 'scrypt', '~>1.2.1'
 gem 'better_errors'
 gem 'binding_of_caller'

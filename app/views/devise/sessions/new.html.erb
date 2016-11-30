@@ -1,9 +1,10 @@
 <h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: auth_user_path()) do |f| %>
+  <%= f.text_field :resource, type: :hidden, value: resource_name %><br />
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.text_field :email, autocomplete: "on" %>
   </div>
 
   <div class="field">
@@ -23,4 +24,4 @@
   </div>
 <% end %>
 
-<%= render "users/shared/links" %>
+<%= render "devise/shared/links" %>
