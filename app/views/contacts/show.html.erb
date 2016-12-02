@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @contact.user %>
+</p>
+
+<p>
+  <strong>Contact user:</strong>
+  <%= @contact.contact_user %>
+</p>
+
+<p>
+  <strong>Channel key:</strong>
+  <%= @contact.channel_key %>
+</p>
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>
