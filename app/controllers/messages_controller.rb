@@ -5,6 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
+    puts "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#{@contact}"
     @messages = @contact.messages
     respond_to do |format|
       format.json {render json: {messages: @messages}}
@@ -73,6 +74,8 @@ class MessagesController < ApplicationController
 
     def ser_contact
       contact_user = User.find_by_email(message_params[:to])
+      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#{message_params[:to]}"
+      puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#{@current_user.id}&&&&#{contact_user.id}"
       @contact = Contact.get_contact(@current_user.id, contact_user.id)
     end
 
