@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   def index
     @messages = @contact.messages
     respond_to do |format|
-      format.json {render json: {messages: @messages}}
+      format.json {render json: {current_user: @current_user.id, messages: @messages}}
     end
   end
 
