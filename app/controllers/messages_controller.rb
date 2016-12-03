@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    puts "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#{@contact}"
     @messages = @contact.messages
     respond_to do |format|
       format.json {render json: {messages: @messages}}
@@ -29,8 +28,11 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = @contact.messages.new(message_params.merge({from: @current_user.id}))
-
+    @message = @contact.messages.new({
+      from: @current_user.id,
+      to: User.find_by_email(message_params[:to]).id,
+      message: message_params[:message]
+       })
     respond_to do |format|
       if @message.save
         format.html { redirect_to @message, notice: 'Message was successfully created.' }
@@ -74,8 +76,6 @@ class MessagesController < ApplicationController
 
     def ser_contact
       contact_user = User.find_by_email(message_params[:to])
-      puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#{message_params[:to]}"
-      puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#{@current_user.id}&&&&#{contact_user.id}"
       @contact = Contact.get_contact(@current_user.id, contact_user.id)
     end
 
