@@ -6,5 +6,5 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Message.create([{to: 1, from:2, message:"Salamualaikum"},{to: 2, from:1, message:"walaikum salam"}])
+Message.create([{to: 1, from:2, contact_id:1, message:"Salamualaikum"},{to: 2, from:1, contact_id:1, message:"walaikum salam"}])
 	

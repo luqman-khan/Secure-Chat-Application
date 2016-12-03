@@ -24,9 +24,11 @@ ActiveRecord::Schema.define(version: 20161202043350) do
   create_table "messages", force: :cascade do |t|
     t.integer  "from"
     t.integer  "to"
+    t.integer  "contact_id"
     t.text     "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_messages_on_contact_id"
   end
 
   create_table "users", force: :cascade do |t|

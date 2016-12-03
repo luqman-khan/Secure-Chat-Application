@@ -1,10 +1,11 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_request!
+  before_action :ser_contact, only: [:index, :create]
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.for_users(@current_user,User.find_by_email(message_params[:to]))
+    @messages = @contact.messages
     respond_to do |format|
       format.json {render json: {messages: @messages}}
     end
@@ -27,7 +28,7 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params[:from]=@current_user.id)
+    @message = @contact.Message.new(message_params.merge({from: @current_user.id}))
 
     respond_to do |format|
       if @message.save
@@ -68,6 +69,11 @@ class MessagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
+    end
+
+    def ser_contact
+      contact_user = User.find_by_email(message_params[:to])
+      @contact = Contact.get_contact(@current_user.id, contact_user.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
