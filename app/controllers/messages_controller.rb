@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = @contact.message.new(message_params.merge({from: @current_user.id}))
+    @message = @contact.messages.new(message_params.merge({from: @current_user.id}))
 
     respond_to do |format|
       if @message.save
