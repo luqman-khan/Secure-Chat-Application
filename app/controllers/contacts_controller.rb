@@ -5,7 +5,11 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = @current_user.contacts
+    contacts = @current_user.contacts.pluck(:id)
+    @contacts = User.where(id: contacts).pluck(:email)
+    respond_to do |format|
+      format.json {render json: {contacts: @contacts}}
+    end
   end
 
   # GET /contacts/1
