@@ -22,14 +22,14 @@ class AuthenticationController < ApplicationController
 
   def get_salt
     respond_to do |format|
-      format.json {render json: {salt: @user.password_salt}}
+      format.json {render json: {salt: @user.salt}}
     end
   end
 
   private
 
   def get_user
-    @user = User.find_for_database_authentication(email: get_salt_params[:email])
+    @user = User.find_by_email(get_salt_params[:email])
   end
 
   def payload(user)
