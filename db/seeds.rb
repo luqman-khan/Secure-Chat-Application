@@ -8,3 +8,4 @@
 
 Message.create([{to: 1, from:2, contact_id:1, message:"Salamualaikum"},{to: 2, from:1, contact_id:1, message:"walaikum salam"}])
 	
+User.create([{email: "lukku.khan2050@gmail.com", password:"", salt:""},{email: "contact.luqman.khan@gmail.com", password:"", salt:""}])

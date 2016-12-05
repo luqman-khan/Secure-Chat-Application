@@ -2,11 +2,10 @@ Rails.application.routes.draw do
   resources :messages
   put 'messages' => "messages#index"
   resources :contacts
-	devise_for :users, controllers: { registrations: 'users/registrations' }
+  resources :users
 	post 'auth_user' => 'authentication#authenticate_user'
-	devise_scope :user do
-		root "devise/sessions#new"
-	end
+	post 'get_salt' => 'authentication#get_salt'
+	
 	resource :welcomes do
 		get 'welcome_page'
 	end

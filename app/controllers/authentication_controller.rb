@@ -1,13 +1,15 @@
 class AuthenticationController < ApplicationController
+  before_action :get_user
+
   def authenticate_user
-    user = User.find_for_database_authentication(email: params[:user][:email])
-    if user.valid_password?(params[:user][:password])
+    
+    if (@user.password == auth_params[:password])
       respond_to do |format|
         format.html {
-          token = JsonWebToken.encode({user_id: user.id})
+          token = JsonWebToken.encode({user_id: @user.id})
           redirect_to welcome_page_welcomes_url(params[:resource], { "Authorization": token })
         }
-        format.json {render json: payload(user)}
+        format.json {render json: payload(@user)}
       end
     else
       respond_to do |format|
@@ -18,7 +20,17 @@ class AuthenticationController < ApplicationController
     end
   end
 
+  def get_salt
+    respond_to do |format|
+      format.json {render json: {salt: @user.password_salt}}
+    end
+  end
+
   private
+
+  def get_user
+    @user = User.find_for_database_authentication(email: get_salt_params[:email])
+  end
 
   def payload(user)
     return nil unless user and user.id
@@ -26,5 +38,13 @@ class AuthenticationController < ApplicationController
       auth_token: JsonWebToken.encode({user_id: user.id}),
       user: {id: user.id, email: user.email}
     }
+  end
+
+  def get_salt_params
+    params.require(:user).permit(:email)
+  end
+
+  def auth_params
+    params.require(:user).permit(:email, :password)
   end
 end
