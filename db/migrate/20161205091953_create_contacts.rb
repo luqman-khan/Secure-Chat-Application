@@ -1,7 +1,9 @@
-class CreateContact1s < ActiveRecord::Migration[5.0]
+class CreateContacts < ActiveRecord::Migration[5.0]
   def change
-    create_table :contact1s do |t|
-      t.integer :user
+    create_table :contacts do |t|
+      t.belongs_to :user
+      t.integer :contact_user
+      t.string :channel_key
 
       t.timestamps
     end
