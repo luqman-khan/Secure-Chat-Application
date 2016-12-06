@@ -31,18 +31,25 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.json
   def create
-    @contact = Contact.new({
+    if(User.find_by_email(contact_params[:contact_user]).present?)
+      @contact = Contact.new({
       user_id: @current_user.id,
       contact_user: User.find_by_email(contact_params[:contact_user]).id,
       channel_key: SCrypt::Engine.hash_secret(SCrypt::Engine.generate_salt, SCrypt::Engine.generate_salt)
       })
-    respond_to do |format|
-      if User.find_by_email(contact_params[:contact_user]).present? && @contact.save
-        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
-        format.json { render :show, status: :created, location: @contact }
-      else
+      respond_to do |format|
+        if User.find_by_email(contact_params[:contact_user]).present? && @contact.save
+          format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+          format.json { render :show, status: :created, location: @contact }
+        else
+          format.html { render :new }
+          format.json { render json: @contact.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
         format.html { render :new }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
+        format.json { render json: {errors: "User does not exists"} }
       end
     end
   end

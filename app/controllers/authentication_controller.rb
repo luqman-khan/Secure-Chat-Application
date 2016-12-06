@@ -3,7 +3,7 @@ class AuthenticationController < ApplicationController
 
   def authenticate_user
     
-    if (@user.password == auth_params[:password])
+    if (@user.password == auth_params[:password] && @user.confirm)
       respond_to do |format|
         format.html {
           token = JsonWebToken.encode({user_id: @user.id})

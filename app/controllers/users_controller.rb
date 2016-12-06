@@ -1,34 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
-  end
-
-  # GET /users/1
-  # GET /users/1.json
-  def show
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-  end
-
+  
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
+    @user = User.new(user_params.merge({confirm: false}))
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        UserMailer.registration_confirmation(@user).deliver
+        format.html { redirect_to new_user_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -36,6 +17,20 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def confirm_email
+    user = User.find_by_confirmation_token(params[:id])
+    @user = User.new
+    if user
+      user.email_activate
+      flash[:success] = "Welcome to the Chat App! Your email has been confirmed.
+      Please sign in to continue."
+      redirect_to new_user_url(@user)
+    else
+      flash[:error] = "Sorry. User does not exist"
+      redirect_to new_user_url(@user)
+    end
+end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
@@ -50,6 +45,8 @@ class UsersController < ApplicationController
       end
     end
   end
+
+
 
   # DELETE /users/1
   # DELETE /users/1.json
