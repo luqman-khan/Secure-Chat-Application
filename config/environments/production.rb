@@ -34,7 +34,7 @@ Rails.application.configure do
    :port                 => 587,
    :domain               => 'mad-hats.me:80',
    :user_name            => "lukku.khan2050@gmail.com",
-   :password             => "domazait5467",
+   :password             => "domazait",
    :authentication       => "plain",
   :enable_starttls_auto => true
   }
