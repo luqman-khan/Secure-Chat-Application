@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       if @user.save
         UserMailer.registration_confirmation(@user).deliver!
         format.html { redirect_to new_user_path, notice: 'User was successfully created.' }
-        format.json { render :json {notice: "Please confirm your emai #{@user.email}"} }
+        format.json { render json: {notice: "Please confirm your emai #{@user.email}"} }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
