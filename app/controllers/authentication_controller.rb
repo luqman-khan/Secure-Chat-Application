@@ -22,7 +22,11 @@ class AuthenticationController < ApplicationController
 
   def get_salt
     respond_to do |format|
-      format.json {render json: {salt: @user.salt}}
+      if (@user)
+        format.json {render json: {salt: @user.salt}}
+      else
+        format.json {render json: {salt: ""}}
+      end
     end
   end
 
